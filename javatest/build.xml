@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<project default="main">
+
+	<target name="main" depends="jaxbwork, compile, compress" 
+	description="Main target">
+		<echo>
+			Building the .jar file.
+	</echo>
+	</target>
+	<target name="jaxbwork" description="JAXB Compile">
+		<exec executable="/usr/bin/xjc">
+		<arg value="-d" />
+		<arg value="src" />
+		<arg value="-p" />
+		<arg value="generated" />
+		<arg value="src/xsd/MySchema.xsd" />
+		</exec>		
+	</target>
+	
+	<target name="compile" description="Compilation target">
+		<echo>
+			Compiling the Java Code.
+	</echo>
+		<javac srcdir="src/generated" />
+		<javac srcdir="src/app" 
+		includes="src/generated" />
+	</target>
+	
+	<target name="compress" description="Compression target">
+		<echo>
+			Compressing the Java Code.
+	</echo>
+		<jar jarfile="javatest.jar" basedir="src/app" includes="*.class" />
+	</target>
+</project>
